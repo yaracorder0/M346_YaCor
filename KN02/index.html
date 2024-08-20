@@ -1,0 +1,84 @@
+
+<!-- saved from url=(0108)https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-100-ACCAIC-1-91563/02-lab-4.2-S3/s3/index.html -->
+<html><div style="all: initial !important; z-index: 2147483647 !important; width: auto !important; position: fixed !important; bottom: 16px !important; left: 16px !important;"><template shadowrootmode="open"><style type="text/css">
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.snbar-container {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 14px;
+  z-index: 2147483647;
+
+  .snbar-element {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #322F35;
+    border-radius: 4px;
+    padding: 14px 16px;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: snackbar-opening 0.25s ease-in-out forwards;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.30), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+
+    &:not(.snbar-active) {
+      animation-name: snackbar-closing;
+      animation-duration: 0.35s;
+    }
+
+    .t-message {
+      color: #F5EFF7;
+      line-height: 20px;
+      font-family: 'Futura', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.25px;
+    }
+  }
+}
+
+@keyframes snackbar-opening {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes snackbar-closing {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  75% {
+    max-height: 30px;
+    padding: 16px;
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    max-height: 0;
+    padding: 0;
+    transform: translateY(100%);
+  }
+}
+</style><div class="snbar-container"></div></template><style type="text/css">
+@font-face {
+  font-family: 'Futura';
+  src: url("chrome-extension://imjnhcoogkbmemieaehgnopdleejnmll/fonts/woff2/futura-medium.woff2") format('woff2'), url("chrome-extension://imjnhcoogkbmemieaehgnopdleejnmll/fonts/ttf/futura-medium.ttf") format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+</style></div><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body><h1>Hello World. Take me to your leader.</h1>
+</body></html>
