@@ -1,0 +1,58 @@
+#cloud-config
+users:
+  - name: ubuntu  
+    sudo: ALL=(ALL) NOPASSWD:ALL  
+    groups: users, admin  
+    home: /home/ubuntu  
+    shell: /bin/bash  
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCJqxXnSuCSEzND9bhzUK8x2Bmwf+izomEX1tu8tGzcvfysu2GpNXx3NWTxbxBde2IqLiDhnZzsDno2hh2yXSRNxbExsa+Rv2R8RRXHkELX/jBz/7sKn5lSk5kE80Vi7tLAo1b4Mb2v6sWCFCjHWdL6SUfQFKQhRZtpNFnCswnNfXId8uNu4ICGbWmZnMaghgsw6+Ah/l6wj+JPpioUOdRL/Gt+Hu0GSpsAxgXFAInUefKgfl9W4FOK8q43OvWjDPJfMRh+YWamtzrZ5a7LirhbNsf8FQKyIEwWoCMCfFelIMYKBKLHmS8y3YseNPKzlHSCfX/ITyw80RCKwdQ9PRGF  
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD  
+ssh_pwauth: false  
+disable_root: false  
+package_update: true  
+packages:
+  - apache2  
+  - adminer  
+  - php
+  - php-mysqli
+  - libapache2-mod-php
+
+runcmd:
+  - a2enconf adminer  
+  - systemctl restart apache2  
+
+write_files:
+  - path: /var/www/html/db.php  
+    content: |  # Datenbank-Verbindungsdatei
+      <?php
+      $servername = "172.31.45.221";  
+      $username = "admin";  
+      $password = "password";  
+      $dbname = "mysql";  
+
+      $conn = new mysqli($servername, $username, $password, $dbname);
+      
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+      echo "Connected successfully";
+
+      $sql = "SELECT Host, User FROM mysql.user;";
+      $result = $conn->query($sql);
+
+      while ($row = $result->fetch_assoc()) {
+        echo $row["Host"] . " / " . $row["User"] . "<br />";
+      }
+      ?>
+
+  - path: /var/www/html/info.php
+    content: |  # PHP-Infoseite
+      <?php
+      phpinfo();
+      ?>
+
+final_message: "Web server setup completed."
+
+
+sudo mysql -sfu root -e "GRANT ALL ON *.* TO 'admin'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;" 
